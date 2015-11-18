@@ -1,0 +1,21 @@
+* text=auto
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.java text elo=lf
+*.groovy text eol=lf
+*.py text eol=lf
+*.rb text eol=lf
+*.gradle text eol=lf
+*.properties text eol=lf
+*.xml text eol=lf
+*.sql text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.ftl text eol=lf
+*.jade text eol=lf
+*.jsp text eol=lf
+*.jspf text eol=lf
+
+gradlew text eol=lf

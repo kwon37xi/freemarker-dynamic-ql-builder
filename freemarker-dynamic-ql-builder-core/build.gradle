@@ -1,0 +1,7 @@
+ext {
+    freemarkerVersion = '2.3.23'
+}
+
+dependencies {
+    compile "org.freemarker:freemarker:${freemarkerVersion}"
+}
