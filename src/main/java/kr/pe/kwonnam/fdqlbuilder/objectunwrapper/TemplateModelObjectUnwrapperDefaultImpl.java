@@ -12,19 +12,23 @@ public class TemplateModelObjectUnwrapperDefaultImpl implements TemplateModelObj
     @Override
     public Object unwrap(TemplateModel dataModel) throws TemplateModelException {
         if (dataModel instanceof SimpleScalar) {
-            return ((SimpleScalar)dataModel).getAsString();
+            return ((SimpleScalar) dataModel).getAsString();
         }
 
         if (dataModel instanceof SimpleNumber) {
-            return ((SimpleNumber)dataModel).getAsNumber();
+            return ((SimpleNumber) dataModel).getAsNumber();
         }
 
         if (dataModel instanceof SimpleDate) {
-            return ((SimpleDate)dataModel).getAsDate();
+            return ((SimpleDate) dataModel).getAsDate();
+        }
+
+        if (dataModel instanceof TemplateBooleanModel) {
+            return ((TemplateBooleanModel) dataModel).getAsBoolean();
         }
 
         if (dataModel instanceof WrapperTemplateModel) {
-            return ((WrapperTemplateModel)dataModel).getWrappedObject();
+            return ((WrapperTemplateModel) dataModel).getWrappedObject();
         }
         throw new TemplateModelException(dataModel.getClass().getCanonicalName() + " is not supported.");
     }

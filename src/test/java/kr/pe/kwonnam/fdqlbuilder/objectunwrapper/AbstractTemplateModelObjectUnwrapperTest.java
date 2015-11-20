@@ -2,6 +2,9 @@ package kr.pe.kwonnam.fdqlbuilder.objectunwrapper;
 
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.*;
+import kr.pe.kwonnam.fdqlbuilder.EmployeeType;
+import kr.pe.kwonnam.fdqlbuilder.User;
+import org.hamcrest.CoreMatchers;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -20,8 +23,7 @@ import java.sql.Clob;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -88,103 +90,103 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
     @Test
     public void testInputSream() throws Exception {
         final InputStream is = new ByteArrayInputStream(new byte[]{1, 2, 3, 4, 5});
-        assertThat(testUnwrap(is)).as("InputStream").isSameAs(is);
+        assertThat(testUnwrap(is), CoreMatchers.<Object>is(is));
     }
 
     @Test
     public void testBigDecimal() throws Exception {
         final BigDecimal bigDecimal = new BigDecimal("100.123");
-        assertThat(testUnwrap(bigDecimal)).as("BigDecimal").isSameAs(bigDecimal);
+        assertThat(testUnwrap(bigDecimal), CoreMatchers.<Object>is(bigDecimal));
     }
 
     @Test
     public void testBlob() throws Exception {
         final Blob blob = new SerialBlob(new byte[]{1, 2, 3});
-        assertThat(testUnwrap(blob)).as("blob").isSameAs(blob);
+        assertThat(testUnwrap(blob), CoreMatchers.<Object>is(blob));
     }
 
     @Test
     public void testReader() throws Exception {
         final Reader reader = new StringReader("Hello");
-        assertThat(testUnwrap(reader)).as("Reader").isSameAs(reader);
+        assertThat(testUnwrap(reader), CoreMatchers.<Object>is(reader));
     }
 
     @Test
     public void testClob() throws Exception {
         final Clob clob = new SerialClob("Hello Clob".toCharArray());
-        assertThat(testUnwrap(clob)).as("Clob").isSameAs(clob);
+        assertThat(testUnwrap(clob), CoreMatchers.<Object>is(clob));
     }
 
     @Test
     public void testDate() throws Exception {
         final Date date = new Date();
-        assertThat(testUnwrap(date)).as("java.util.Date").isSameAs(date);
+        assertThat(testUnwrap(date), CoreMatchers.<Object>is(date));
     }
 
     @Test
     public void testSqlDate() throws Exception {
         final java.sql.Date date = new java.sql.Date(new Date().getTime());
-        assertThat(testUnwrap(date)).as("java.sql.Date").isSameAs(date);
+        assertThat(testUnwrap(date), CoreMatchers.<Object>is(date));
     }
 
     @Test
     public void testSqlTime() throws Exception {
         final java.sql.Time time = new java.sql.Time(new Date().getTime());
-        assertThat(testUnwrap(time)).as("java.sql.Time").isSameAs(time);
+        assertThat(testUnwrap(time), CoreMatchers.<Object>is(time));
     }
 
     @Test
     public void testSqlTimestamp() throws Exception {
         final java.sql.Timestamp timestamp = new Timestamp(new Date().getTime());
-        assertThat(testUnwrap(timestamp)).as("java.sql.Timestamp").isSameAs(timestamp);
+        assertThat(testUnwrap(timestamp), CoreMatchers.<Object>is(timestamp));
     }
 
     @Test
     public void setCalendar() throws Exception {
         final Calendar calendar = Calendar.getInstance();
-        assertThat(testUnwrap(calendar)).as("Calendar").isSameAs(calendar);
+        assertThat(testUnwrap(calendar), CoreMatchers.<Object>is(calendar));
     }
 
     @Test
     public void testDouble() throws Exception {
         final Double numberDouble = new Double(123.45d);
-        assertThat(testUnwrap(numberDouble)).as("Double").isSameAs(numberDouble);
+        assertThat(testUnwrap(numberDouble), CoreMatchers.<Object>is(numberDouble));
     }
 
     @Test
     public void testFloat() throws Exception {
         final Float numberFloat = new Float(123.45f);
-        assertThat(testUnwrap(numberFloat)).as("Float").isSameAs(numberFloat);
+        assertThat(testUnwrap(numberFloat), CoreMatchers.<Object>is(numberFloat));
     }
 
     @Test
     public void testInteger() throws Exception {
         final Integer numberInteger = new Integer(123);
-        assertThat(testUnwrap(numberInteger)).as("Integer").isSameAs(numberInteger);
+        assertThat(testUnwrap(numberInteger), CoreMatchers.<Object>is(numberInteger));
     }
 
     @Test
     public void testLong() throws Exception {
         final Long numberLong = new Long(12345678901234567L);
-        assertThat(testUnwrap(numberLong)).as("Long").isSameAs(numberLong);
+        assertThat(testUnwrap(numberLong), CoreMatchers.<Object>is(numberLong));
     }
 
     @Test
     public void testString() throws Exception {
         final String string = "Hello ql";
-        assertThat(testUnwrap(string)).as("String").isSameAs(string);
+        assertThat(testUnwrap(string), CoreMatchers.<Object>is(string));
     }
 
     @Test
     public void testStringArray() throws Exception {
         final String[] stringArray = new String[]{"hello", "world"};
-        assertThat(testUnwrap(stringArray)).isSameAs(stringArray);
+        assertThat(testUnwrap(stringArray), CoreMatchers.<Object>is(stringArray));
     }
 
     @Test
     public void testValueObjectArray() throws Exception {
         final User[] users = new User[]{new User("hello", 12), new User("world", 30)};
-        assertThat(testUnwrap(users)).as("VO Array").isSameAs(users);
+        assertThat(testUnwrap(users), CoreMatchers.<Object>is(users));
     }
 
     @Test
@@ -194,7 +196,7 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
         integers.add(2);
         integers.add(3);
 
-        assertThat(testUnwrap(integers)).as("Integer List").isSameAs(integers);
+        assertThat(testUnwrap(integers), CoreMatchers.<Object>is(integers));
     }
 
     @Test
@@ -204,7 +206,7 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
         users.add(new User("freemarker", 20));
         users.add(new User("ql", 30));
 
-        assertThat(testUnwrap(users)).as("ValueObject List").isSameAs(users);
+        assertThat(testUnwrap(users), CoreMatchers.<Object>is(users));
     }
 
     @Test
@@ -214,7 +216,7 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
         strings.add("hello");
         strings.add("world");
 
-        assertThat(testUnwrap(strings)).as("String Set").isSameAs(strings);
+        assertThat(testUnwrap(strings), CoreMatchers.<Object>is(strings));
     }
 
     @Test
@@ -224,7 +226,7 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
         users.add(new User("hello", 20));
         users.add(new User("ql", 50));
 
-        assertThat(testUnwrap(users)).as("ValueObject Set").isSameAs(users);
+        assertThat(testUnwrap(users), CoreMatchers.<Object>is(users));
     }
 
     @Test
@@ -233,25 +235,49 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
         userMap.put("hello", new User("hello", 70));
         userMap.put("world", new User("world", 100));
 
-        assertThat(testUnwrap(userMap)).as("Map").isSameAs(userMap);
+        assertThat(testUnwrap(userMap), CoreMatchers.<Object>is(userMap));
     }
 
     @Test
     public void testJodaTimeDateTime() throws Exception {
         final DateTime dateTime = new DateTime(new Date());
-        assertThat(testUnwrap(dateTime)).as("JodaTime DateTime").isSameAs(dateTime);
+        assertThat(testUnwrap(dateTime), CoreMatchers.<Object>is(dateTime));
     }
 
     @Test
     public void testJodaTimeLocalDateTime() throws Exception {
         final LocalDateTime localDateTime = new LocalDateTime(new Date());
-        assertThat(testUnwrap(localDateTime)).as("JodaTime LocalDateTime").isSameAs(localDateTime);
+        assertThat(testUnwrap(localDateTime), CoreMatchers.<Object>is(localDateTime));
     }
 
     @Test
     public void testJodaMoney() throws Exception {
         final Money money = Money.of(CurrencyUnit.USD, new BigDecimal("999.99"));
-        assertThat(testUnwrap(money)).as("JodaTime Money").isSameAs(money);
+        assertThat(testUnwrap(money), CoreMatchers.<Object>is(money));
+    }
+
+    @Test
+    public void testEnum() throws Exception {
+        final EmployeeType employeeType = EmployeeType.FULLTIME;
+        assertThat(testUnwrap(employeeType), CoreMatchers.<Object>is(employeeType));
+    }
+
+    @Test
+    public void testBoolean() throws Exception {
+        assertThat(testUnwrap(Boolean.TRUE), CoreMatchers.<Object>is(Boolean.TRUE));
+        assertThat(testUnwrap(Boolean.FALSE), CoreMatchers.<Object>is(Boolean.FALSE));
+    }
+
+    @Test
+    public void testCharArray() throws Exception {
+        final char[] chars = "HelloWorld".toCharArray();
+        assertThat(testUnwrap(chars), CoreMatchers.<Object>is(chars));
+    }
+
+    @Test
+    public void testByteArray() throws Exception {
+        final byte[] bytes = "HelloWorld".getBytes("UTF-8");
+        assertThat(testUnwrap(bytes), CoreMatchers.<Object>is(bytes));
     }
 
     @Test
@@ -263,10 +289,10 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
 
         try {
             testUnwrap(users);
-            failBecauseExceptionWasNotThrown(TemplateException.class);
+            fail("must throw an exception");
         } catch (TemplateException ex) {
-            assertThat(ex).as("Current version of Freemarker does not support SimpleSequence.")
-                    .hasMessageContaining("freemarker.template.SimpleSequence is not supported.");
+            assertThat("Current version of Freemarker does not support SimpleSequence.",
+                    ex.getMessage(), CoreMatchers.containsString("freemarker.template.SimpleSequence is not supported."));
         }
     }
 
@@ -296,35 +322,6 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
             }
 
             return new SimpleScalar(unwrapped.getClass().getCanonicalName());
-        }
-    }
-
-    public static class User {
-        private String name;
-        private int birthyear;
-
-        public User() {
-        }
-
-        public User(String name, int birthyear) {
-            this.name = name;
-            this.birthyear = birthyear;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getBirthyear() {
-            return birthyear;
-        }
-
-        public void setBirthyear(int birthyear) {
-            this.birthyear = birthyear;
         }
     }
 }

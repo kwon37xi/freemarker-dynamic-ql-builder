@@ -3,22 +3,20 @@ package kr.pe.kwonnam.fdqlbuilder.paramconverter;
 import kr.pe.kwonnam.fdqlbuilder.methods.ParamMethod;
 
 /**
- * Parameter converter.
+ * Sometimes a java object and a database column type are not the same.
+ * You may need to convert from the java object to another object that matches the column type.
  * <p/>
- * This is called through {@link ParamMethod}.
- * <p/>
- * Sometime java object and database column type are mismatch.
- * You may need to convert from java object to column type.
- * Implement this interface and pass
+ * If you register this interface implementation to the configuration,
+ * {@link ParamMethod} will call this when required and the converted object will be set as query parameter.
  * <p/>
  * {@link ParamMethod} allows null value. So you need to take care of null input parameter.
  */
-public interface ParameterConverter<F, T> {
+public interface ParameterConverter {
 
     /**
-     * Convert {@code F from} object to {@code T} object.
+     * Convert from object to another object.
      * @param from source object.
      * @return target object.
      */
-    T convert(F from);
+    Object convert(Object from);
 }
