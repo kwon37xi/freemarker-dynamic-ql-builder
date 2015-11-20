@@ -18,6 +18,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialClob;
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Timestamp;
@@ -149,25 +150,25 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
 
     @Test
     public void testDouble() throws Exception {
-        final Double numberDouble = new Double(123.45d);
+        final Double numberDouble = 123.45d;
         assertThat(testUnwrap(numberDouble), CoreMatchers.<Object>is(numberDouble));
     }
 
     @Test
     public void testFloat() throws Exception {
-        final Float numberFloat = new Float(123.45f);
+        final Float numberFloat = 123.45f;
         assertThat(testUnwrap(numberFloat), CoreMatchers.<Object>is(numberFloat));
     }
 
     @Test
     public void testInteger() throws Exception {
-        final Integer numberInteger = new Integer(123);
+        final Integer numberInteger = 123;
         assertThat(testUnwrap(numberInteger), CoreMatchers.<Object>is(numberInteger));
     }
 
     @Test
     public void testLong() throws Exception {
-        final Long numberLong = new Long(12345678901234567L);
+        final Long numberLong = 12345678901234567L;
         assertThat(testUnwrap(numberLong), CoreMatchers.<Object>is(numberLong));
     }
 
@@ -278,6 +279,18 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
     public void testByteArray() throws Exception {
         final byte[] bytes = "HelloWorld".getBytes("UTF-8");
         assertThat(testUnwrap(bytes), CoreMatchers.<Object>is(bytes));
+    }
+
+    @Test
+    public void testURL() throws Exception {
+        final URL url = new URL("https://github.com/kwon37xi/freemarker-dynamic-ql-builder");
+        assertThat(testUnwrap(url), CoreMatchers.<Object>is(url));
+    }
+
+    @Test
+    public void testLocale() throws Exception {
+        final Locale locale = Locale.KOREA;
+        assertThat(testUnwrap(locale), CoreMatchers.<Object>is(locale));
     }
 
     @Test
