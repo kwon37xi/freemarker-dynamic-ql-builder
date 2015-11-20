@@ -43,8 +43,6 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
 
     protected Configuration configuration;
 
-    private StringTemplateLoader templateLoader;
-
     protected Template template;
 
     protected ParameterUnwrapMethod parameterUnwrapMethod;
@@ -58,7 +56,7 @@ public abstract class AbstractTemplateModelObjectUnwrapperTest {
     public void setUp() throws Exception {
         configuration = new Configuration(Configuration.VERSION_2_3_23);
 
-        templateLoader = new StringTemplateLoader();
+        StringTemplateLoader templateLoader = new StringTemplateLoader();
         templateLoader.putTemplate(UNWRAP_TEMPLATE_NAME, "${parameterUnwrap(param)}");
 
         configuration.setTemplateLoader(templateLoader);
