@@ -21,7 +21,7 @@ public class TemplateModelObjectUnwrapperObjectWrapperAndUnwrapperImpl implement
     public Object unwrap(TemplateModel dataModel) throws TemplateModelException {
         Object unwrapped = objectWrapperAndUnwrapper.unwrap(dataModel);
 
-        if (unwrapped instanceof TemplateModel || unwrapped instanceof TemplateModelAdapter) {
+        if (unwrapped instanceof TemplateModelAdapter) {
             throw new TemplateModelException(dataModel.getClass().getCanonicalName() + " is not supported.");
         }
         return unwrapped;
