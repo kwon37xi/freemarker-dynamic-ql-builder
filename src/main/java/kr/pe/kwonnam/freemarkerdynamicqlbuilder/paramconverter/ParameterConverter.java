@@ -1,6 +1,6 @@
-package kr.pe.kwonnam.fdqlbuilder.paramconverter;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter;
 
-import kr.pe.kwonnam.fdqlbuilder.methods.ParamMethod;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods.ParamMethod;
 
 /**
  * Sometimes a java object and a database column type are not the same.

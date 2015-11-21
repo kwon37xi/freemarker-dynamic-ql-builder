@@ -1,8 +1,8 @@
-package kr.pe.kwonnam.fdqlbuilder;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import freemarker.template.Configuration;
-import kr.pe.kwonnam.fdqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
-import kr.pe.kwonnam.fdqlbuilder.paramconverter.ParameterConverter;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

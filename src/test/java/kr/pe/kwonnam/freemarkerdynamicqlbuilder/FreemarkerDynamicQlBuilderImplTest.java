@@ -1,11 +1,11 @@
-package kr.pe.kwonnam.fdqlbuilder;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import freemarker.template.Configuration;
 import freemarker.template.SimpleScalar;
 import freemarker.template.Template;
-import kr.pe.kwonnam.fdqlbuilder.methods.ParamMethod;
-import kr.pe.kwonnam.fdqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
-import kr.pe.kwonnam.fdqlbuilder.paramconverter.ParameterConverter;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods.ParamMethod;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -152,6 +152,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 Object[] arguments = invocation.getArguments();
 
+                @SuppressWarnings("unchecked")
                 Map<String, Object> finalDataModel = (Map<String, Object>) arguments[0];
 
                 ParamMethod paramMethod = (ParamMethod) finalDataModel.get(TEST_PARAM_METHOD_NAME);

@@ -1,8 +1,8 @@
-package kr.pe.kwonnam.fdqlbuilder.methods;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods;
 
 import freemarker.template.*;
-import kr.pe.kwonnam.fdqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
-import kr.pe.kwonnam.fdqlbuilder.paramconverter.ParameterConverter;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;

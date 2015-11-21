@@ -1,10 +1,10 @@
-package kr.pe.kwonnam.fdqlbuilder;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import kr.pe.kwonnam.fdqlbuilder.methods.ParamMethod;
-import kr.pe.kwonnam.fdqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
-import kr.pe.kwonnam.fdqlbuilder.paramconverter.ParameterConverter;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods.ParamMethod;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
 import org.slf4j.Logger;
 
 import java.io.IOException;

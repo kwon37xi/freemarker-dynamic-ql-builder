@@ -1,4 +1,4 @@
-package kr.pe.kwonnam.fdqlbuilder.objectunwrapper;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper;
 
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.*;

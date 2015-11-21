@@ -1,9 +1,9 @@
-package kr.pe.kwonnam.fdqlbuilder.objectunwrapper;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper;
 
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.*;
-import kr.pe.kwonnam.fdqlbuilder.EmployeeType;
-import kr.pe.kwonnam.fdqlbuilder.User;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.EmployeeType;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.User;
 import org.hamcrest.CoreMatchers;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;

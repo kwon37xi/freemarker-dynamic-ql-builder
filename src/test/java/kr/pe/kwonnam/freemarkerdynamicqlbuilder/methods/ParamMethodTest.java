@@ -1,14 +1,14 @@
-package kr.pe.kwonnam.fdqlbuilder.methods;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods;
 
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import kr.pe.kwonnam.fdqlbuilder.EmployeeType;
-import kr.pe.kwonnam.fdqlbuilder.User;
-import kr.pe.kwonnam.fdqlbuilder.objectunwrapper.TemplateModelObjectUnwrapperDefaultImpl;
-import kr.pe.kwonnam.fdqlbuilder.paramconverter.ParameterConverter;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.EmployeeType;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.User;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapperDefaultImpl;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;

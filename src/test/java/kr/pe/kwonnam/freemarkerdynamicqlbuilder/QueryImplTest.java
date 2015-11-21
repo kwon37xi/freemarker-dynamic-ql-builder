@@ -1,6 +1,5 @@
-package kr.pe.kwonnam.fdqlbuilder;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

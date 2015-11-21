@@ -1,4 +1,4 @@
-package kr.pe.kwonnam.fdqlbuilder;
+package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import java.util.Map;
 
