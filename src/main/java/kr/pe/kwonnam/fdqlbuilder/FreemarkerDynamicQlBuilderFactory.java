@@ -9,10 +9,19 @@ import java.util.*;
 
 /**
  * Factory class for {@link FreemarkerDynamicQlBuilder}.
+ * <br />
+ * Default configuration values
+ * <ul>
+ *     <li>qlDirectivePrefix : <code>ql</code></li>
+ *     <li>paramMethodName : <code>param</code></li>
+ *     <li>queryTemplateNamePostfix : <code>.ql.ftl</code></li>
+ * </ul>
  */
 public class FreemarkerDynamicQlBuilderFactory {
     public static final String DEFAULT_QL_DIRECTIVE_PREFIX = "ql";
     public static final String DEFAULT_PARAM_METHOD_NAME = "param";
+    public static final String DEFAULT_QUERY_TEMPLATE_NAME_POSTFIX = ".ql.ftl";
+
     public static final TemplateModelObjectUnwrapper DEFAULT_TEMPLATE_MODEL_OBJECT_UNWRAPPER =
             new TemplateModelObjectUnwrapperDefaultImpl();
 
@@ -30,6 +39,11 @@ public class FreemarkerDynamicQlBuilderFactory {
      * Freemarker param custom method name
      */
     private String paramMethodName = DEFAULT_PARAM_METHOD_NAME;
+
+    /**
+     * queryTemplateNamePostfix
+     */
+    private String queryTemplateNamePostfix = DEFAULT_QUERY_TEMPLATE_NAME_POSTFIX;
 
     private Map<String, ParameterConverter> parameterConverters = new HashMap<String, ParameterConverter>();
 
@@ -67,8 +81,8 @@ public class FreemarkerDynamicQlBuilderFactory {
         this.freemarkerConfiguration = freemarkerConfiguration;
     }
 
-    private void checkNotNullOrNotEmpty(String argName, String object) {
-        if (object == null || object.equals("")) {
+    private void checkNotNullOrNotEmpty(String argName, String obj) {
+        if (obj == null || obj.isEmpty()) {
             throw new IllegalArgumentException(argName + " must not be null or empty.");
         }
     }
@@ -95,6 +109,23 @@ public class FreemarkerDynamicQlBuilderFactory {
         checkNotNullOrNotEmpty("paramMethodName", paramMethodName);
 
         this.paramMethodName = paramMethodName;
+        return this;
+    }
+
+    /**
+     * queryTemplateNamePostfix will be added to queryTemplateName when create template instances from freemarkerConfiguration.<br />
+     * For example, when queryTemplateNamePostfix is ".ql.ftl" and you call <code>buildQuery("/users/select", dataModel)</code>,
+     * then builder will create a template instance with name "/user/select.ql.ftl".
+     *
+     * @param queryTemplateNamePostfix must not be null. empty is ok.
+     * @return this
+     */
+    public FreemarkerDynamicQlBuilderFactory queryTemplateNamePostfix(String queryTemplateNamePostfix) {
+        if (queryTemplateNamePostfix == null) {
+            throw new IllegalArgumentException("queryTemplateNamePostfix must not be null.");
+        }
+
+        this.queryTemplateNamePostfix = queryTemplateNamePostfix;
         return this;
     }
 
@@ -155,6 +186,7 @@ public class FreemarkerDynamicQlBuilderFactory {
         freemarkerDynamicQlBuilder.setFreemarkerConfiguration(freemarkerConfiguration);
         freemarkerDynamicQlBuilder.setQlDirectivePrefix(qlDirectivePrefix);
         freemarkerDynamicQlBuilder.setParamMethodName(paramMethodName);
+        freemarkerDynamicQlBuilder.setQueryTemplateNamePostfix(queryTemplateNamePostfix);
         freemarkerDynamicQlBuilder.setParameterConverters(Collections.unmodifiableMap(parameterConverters));
         freemarkerDynamicQlBuilder.setTemplateModelObjectUnwrapper(templateModelObjectUnwrapper);
         return freemarkerDynamicQlBuilder;

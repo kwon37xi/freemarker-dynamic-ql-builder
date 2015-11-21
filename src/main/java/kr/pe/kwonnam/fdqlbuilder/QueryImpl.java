@@ -56,4 +56,12 @@ public class QueryImpl implements Query {
             preparedStatement.setObject(parameterIndex, queryParameters.get(parameterIndex - 1));
         }
     }
+
+    @Override
+    public String toString() {
+        return "QueryImpl{" +
+                "queryString='" + queryString + '\'' +
+                ", queryParameters=" + queryParameters +
+                '}';
+    }
 }

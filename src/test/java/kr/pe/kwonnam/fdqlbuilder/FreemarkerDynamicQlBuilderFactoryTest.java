@@ -98,6 +98,17 @@ public class FreemarkerDynamicQlBuilderFactoryTest {
     }
 
     @Test
+    public void queryTemplateNamePostfix_null() throws Exception {
+        try {
+            factory.queryTemplateNamePostfix(null);
+            fail("Must throw an exception - IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            assertThat("Must throw an exception",
+                    ex.getMessage(), is("queryTemplateNamePostfix must not be null."));
+        }
+    }
+
+    @Test
     public void templateModelObjectUnwrapper_null() throws Exception {
         try {
             factory.templateModelObjectUnwrapper(null);
@@ -194,6 +205,7 @@ public class FreemarkerDynamicQlBuilderFactoryTest {
         FreemarkerDynamicQlBuilderImpl freemarkerDynamicQlBuilder = (FreemarkerDynamicQlBuilderImpl) factory
                 .qlDirectivePrefix("Q")
                 .paramMethodName("P")
+                .queryTemplateNamePostfix(".QL.FTL")
                 .templateModelObjectUnwrapper(templateModelObjectUnwrapper)
                 .addParameterConverter("pc1", parameterConverter1)
                 .addParameterConverter("pc2", parameterConverter2)
@@ -202,6 +214,7 @@ public class FreemarkerDynamicQlBuilderFactoryTest {
         assertThat(freemarkerDynamicQlBuilder.getFreemarkerConfiguration(), sameInstance(freemarkerConfiguration));
         assertThat(freemarkerDynamicQlBuilder.getQlDirectivePrefix(), is("Q"));
         assertThat(freemarkerDynamicQlBuilder.getParamMethodName(), is("P"));
+        assertThat(freemarkerDynamicQlBuilder.getQueryTemplateNamePostfix(), is(".QL.FTL"));
         assertThat(freemarkerDynamicQlBuilder.getTemplateModelObjectUnwrapper(), sameInstance(templateModelObjectUnwrapper));
         assertThat(freemarkerDynamicQlBuilder.getParameterConverters().size(), is(2));
         assertThat(freemarkerDynamicQlBuilder.getParameterConverters().values(), hasItems(parameterConverter1, parameterConverter2));
