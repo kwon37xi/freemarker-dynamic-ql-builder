@@ -1,1 +1,0 @@
-SELECT * FROM somewhere WHERE column1 = ${param(luckyNumber)} AND column2 = ${param(myname)}
