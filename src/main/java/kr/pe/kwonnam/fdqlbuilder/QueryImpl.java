@@ -1,5 +1,7 @@
 package kr.pe.kwonnam.fdqlbuilder;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +19,41 @@ public class QueryImpl implements Query {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getQueryString() {
         return queryString;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Object> getQueryParameters() {
         return queryParameters;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object[] getQueryParameterArray() {
         return queryParameters.toArray(new Object[queryParameters.size()]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bindParameters(PreparedStatement preparedStatement) throws SQLException {
+        if (preparedStatement == null) {
+            throw new IllegalArgumentException("preparedStatement must not be null.");
+        }
+
+        for (int parameterIndex = 1; parameterIndex <= queryParameters.size(); parameterIndex++) {
+            preparedStatement.setObject(parameterIndex, queryParameters.get(parameterIndex - 1));
+        }
     }
 }
