@@ -23,7 +23,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * <li>{@code converterName} is used to find {@link ParameterConverter} and convvert the parameter to another object.</li>
  * </ul>
  * <p/>
- * This is NOT thread safe. Each template processing request must create new {@link ParamMethod} object.
+ * This is NOT thread safe. Each template processing request must create new instance.
  *
  * @see ParameterConverter
  */
