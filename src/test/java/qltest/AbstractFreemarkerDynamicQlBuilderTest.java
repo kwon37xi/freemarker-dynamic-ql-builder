@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.DynamicQuery;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.FreemarkerDynamicQlBuilder;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.FreemarkerDynamicQlBuilderFactory;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
@@ -36,6 +37,14 @@ public abstract class AbstractFreemarkerDynamicQlBuilderTest {
         freemarkerConfiguration.setNumberFormat("0.######");
 
         builder = new FreemarkerDynamicQlBuilderFactory(freemarkerConfiguration)
+                .addParameterConverter("booleanTo10", new BooleanToNumberParameterConverter(1, 0))
+                .addParameterConverter("booleanToYN", new BooleanToStringParameterConverter("Y", "N"))
+                .addParameterConverter("booleanToTF", new BooleanToStringParameterConverter("T", "F"))
+                .addParameterConverter("dateToString", new DateToStringParameterConverter("yyyy-MM-dd HH:mm:ss"))
+                .addParameterConverter("enumToName", new EnumToNameParameterConverter())
+                .addParameterConverter("enumToOrdinal", new EnumToOrdirnalParameterConverter())
+                .addParameterConverter("dateToSqlDate", new DateToSqlDateParameterConverter())
+                .addParameterConverter("dateToSqlTime", new DateToSqlTimeParameterConverter())
                 .getFreemarkerDynamicQlBuilder();
     }
 
