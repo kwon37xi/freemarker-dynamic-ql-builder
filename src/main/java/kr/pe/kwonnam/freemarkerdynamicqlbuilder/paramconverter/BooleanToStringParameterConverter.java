@@ -19,6 +19,6 @@ public class BooleanToStringParameterConverter implements ParameterConverter {
             return null;
         }
 
-        return ((Boolean) from).booleanValue() ? trueString : falseString;
+        return (Boolean) from ? trueString : falseString;
     }
 }

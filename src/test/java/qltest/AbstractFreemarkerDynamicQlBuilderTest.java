@@ -42,7 +42,7 @@ public abstract class AbstractFreemarkerDynamicQlBuilderTest {
                 .addParameterConverter("booleanToTF", new BooleanToStringParameterConverter("T", "F"))
                 .addParameterConverter("dateToString", new DateToStringParameterConverter("yyyy-MM-dd HH:mm:ss"))
                 .addParameterConverter("enumToName", new EnumToNameParameterConverter())
-                .addParameterConverter("enumToOrdinal", new EnumToOrdirnalParameterConverter())
+                .addParameterConverter("enumToOrdinal", new EnumToOrdinalParameterConverter())
                 .addParameterConverter("dateToSqlDate", new DateToSqlDateParameterConverter())
                 .addParameterConverter("dateToSqlTime", new DateToSqlTimeParameterConverter())
                 .getFreemarkerDynamicQlBuilder();

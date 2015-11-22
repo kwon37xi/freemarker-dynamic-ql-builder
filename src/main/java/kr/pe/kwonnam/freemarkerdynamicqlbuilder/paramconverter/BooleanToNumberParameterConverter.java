@@ -24,6 +24,6 @@ public class BooleanToNumberParameterConverter implements ParameterConverter {
             return null;
         }
 
-        return ((Boolean) from).booleanValue() ? trueValue : falseValue;
+        return (Boolean) from ? trueValue : falseValue;
     }
 }
