@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +40,17 @@ public class TrimTest {
 
     @Test
     public void trim_no_options() throws Exception {
+        assertThat(trim.trim("  \r \t \n hello \r \t \n world \t \r \n  "), is("hello \r \t \n world"));
+        assertThat(trim.trim("  \r \n AND username = ? AND email = ?  \r \n  \t  "), is("AND username = ? AND email = ?"));
+    }
+
+    @Test
+    public void trim_all_options_empty() throws Exception {
+        trim.setPrefix("");
+        trim.setSuffix("");
+        trim.setPrefixOverrides(new ArrayList<String>());
+        trim.setSuffixOverrides(new ArrayList<String>());
+
         assertThat(trim.trim("  \r \t \n hello \r \t \n world \t \r \n  "), is("hello \r \t \n world"));
         assertThat(trim.trim("  \r \n AND username = ? AND email = ?  \r \n  \t  "), is("AND username = ? AND email = ?"));
     }

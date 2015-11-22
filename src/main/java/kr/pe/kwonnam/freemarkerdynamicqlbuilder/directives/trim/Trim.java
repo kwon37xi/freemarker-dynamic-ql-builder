@@ -1,6 +1,10 @@
 package kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.trim;
 
+import org.slf4j.Logger;
+
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Trim template result string.
@@ -8,6 +12,8 @@ import java.util.List;
  * This is thread safe but the setter methods must not be called while calling trim() method.
  */
 public class Trim {
+    private Logger log = getLogger(Trim.class);
+
     private String prefix;
 
     private List<String> prefixOverrides;
@@ -34,7 +40,7 @@ public class Trim {
     }
 
     /**
-     * After trimming, if the trimmed string starts with one of the prefixRemoves,
+     * After trimming, if the trimmed string starts with one of the prefixOverrides,
      * only the first matching item from the head of the trimmed string will be removed.
      *
      * @param prefixOverrides list of strings that will be removed from the head of the trimmed string.
@@ -61,7 +67,7 @@ public class Trim {
     }
 
     /**
-     * After trimming, if the trimmed string ends with one of the suffixRemoves,
+     * After trimming, if the trimmed string ends with one of the suffixOverrides,
      * only the first matching item from the tail of the trimmed string will be removed.
      *
      * @param suffixOverrides list of strings that will be removed from the tail of the trimmed string.
@@ -77,6 +83,8 @@ public class Trim {
      * @return trimmed string. null if str is null.
      */
     public String trim(String str) {
+        log.debug("Processing trim prefix : {}, prefixOverrides : {}, suffix : {}, suffixOverrides : {}, str : {}", prefix, prefixOverrides, suffix, suffixOverrides, str);
+
         if (str == null) {
             return null;
         }

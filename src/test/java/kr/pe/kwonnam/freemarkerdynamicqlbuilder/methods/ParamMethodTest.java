@@ -36,7 +36,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ParamMethodTest {
     private Logger log = getLogger(ParamMethodTest.class);
 
-    private Configuration configuration;
+    private Configuration freemarkerConfiguration;
 
     private StringTemplateLoader templateLoader;
 
@@ -55,14 +55,14 @@ public class ParamMethodTest {
 
     @Before
     public void setUp() throws Exception {
-        configuration = new Configuration(Configuration.VERSION_2_3_23);
+        freemarkerConfiguration = new Configuration(Configuration.VERSION_2_3_23);
 
         templateLoader = new StringTemplateLoader();
 
-        configuration.setTemplateLoader(templateLoader);
-        configuration.setDefaultEncoding("UTF-8");
-        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        configuration.setNumberFormat("0.######");
+        freemarkerConfiguration.setTemplateLoader(templateLoader);
+        freemarkerConfiguration.setDefaultEncoding("UTF-8");
+        freemarkerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        freemarkerConfiguration.setNumberFormat("0.######");
 
         parameterConverters = new HashMap<String, ParameterConverter>();
         parameterConverters.put("booleanToYn", booleanToYn);
@@ -75,7 +75,7 @@ public class ParamMethodTest {
     }
 
     private String processTemplate(String templateSource) throws IOException, TemplateException {
-        Template template = new Template("template", templateSource, configuration);
+        Template template = new Template("template", templateSource, freemarkerConfiguration);
         StringWriter out = new StringWriter();
 
         dataModel.put("param", paramMethod);
@@ -83,7 +83,6 @@ public class ParamMethodTest {
 
         return out.toString();
     }
-
 
     @Test
     public void constructor_unrwrapper_null() throws Exception {
