@@ -32,6 +32,8 @@ public class AbstractQlDirectiveTest {
 
         Map<String, TemplateDirectiveModel> qlDirectives = new HashMap<String, TemplateDirectiveModel>();
         qlDirectives.put("trim", new TrimDirective());
+        qlDirectives.put("where", new WhereDirective());
+        qlDirectives.put("set", new SetDirective());
 
         freemarkerConfiguration.setSharedVariable("ql", qlDirectives);
 
