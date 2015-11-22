@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The result of processing query template.
  */
-public interface Query {
+public interface DynamicQuery {
     /**
      * final query string
      */

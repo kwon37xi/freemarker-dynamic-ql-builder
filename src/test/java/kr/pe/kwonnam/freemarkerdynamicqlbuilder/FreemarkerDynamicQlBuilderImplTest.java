@@ -169,14 +169,14 @@ public class FreemarkerDynamicQlBuilderImplTest {
         dataModel.put("firstKey", "hello");
         dataModel.put("secondKey", "world");
 
-        Query query = builder.buildQuery(queryTemplateName, dataModel);
-        log.debug("buildQuery result : {}", query);
+        DynamicQuery dynamicQuery = builder.buildQuery(queryTemplateName, dataModel);
+        log.debug("buildQuery result : {}", dynamicQuery);
 
-        assertThat(query.getQueryString(), is("SELECT * FROM SOMEWHERE id IN (?,?)"));
-        assertThat(query.getQueryParameters().size(), is(2));
+        assertThat(dynamicQuery.getQueryString(), is("SELECT * FROM SOMEWHERE id IN (?,?)"));
+        assertThat(dynamicQuery.getQueryParameters().size(), is(2));
 
-        assertThat(query.getQueryParameters().contains("hello"), is(true));
-        assertThat(query.getQueryParameters().contains("world"), is(true));
+        assertThat(dynamicQuery.getQueryParameters().contains("hello"), is(true));
+        assertThat(dynamicQuery.getQueryParameters().contains("world"), is(true));
     }
 
     private List<Object> args(Object... args) {

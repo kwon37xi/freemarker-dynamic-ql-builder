@@ -105,18 +105,18 @@ public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilde
     }
 
     @Override
-    public Query buildQuery(String queryTemplateName) {
+    public DynamicQuery buildQuery(String queryTemplateName) {
         return buildQuery(queryTemplateName, Collections.<String, Object>emptyMap());
     }
 
     @Override
-    public Query buildQuery(String queryTemplateName, Map<String, Object> dataModel) {
+    public DynamicQuery buildQuery(String queryTemplateName, Map<String, Object> dataModel) {
         verifyQueryTemplateName(queryTemplateName);
         verifyDataModel(dataModel);
 
         final String finalQueryTemplateName = queryTemplateName + queryTemplateNamePostfix;
         Template template = createTemplate(finalQueryTemplateName);
-        QueryImpl query = processTemplate(dataModel, finalQueryTemplateName, template);
+        DynamicQueryImpl query = processTemplate(dataModel, finalQueryTemplateName, template);
 
         log.debug("Query for templateName : {}, dataModel : {} -> {}", finalQueryTemplateName, dataModel, query);
         return query;
@@ -130,7 +130,7 @@ public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilde
         }
     }
 
-    private QueryImpl processTemplate(Map<String, Object> dataModel, String finalQueryTemplateName, Template template) {
+    private DynamicQueryImpl processTemplate(Map<String, Object> dataModel, String finalQueryTemplateName, Template template) {
         final Map<String, Object> finalDataModel = new HashMap<String, Object>(dataModel);
         final ParamMethod paramMethod = new ParamMethod(templateModelObjectUnwrapper, parameterConverters);
         finalDataModel.put(paramMethodName, paramMethod);
@@ -142,7 +142,7 @@ public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilde
             throw new IllegalStateException("Can not process freemarker template - " + finalQueryTemplateName + ".", ex);
         }
 
-        return new QueryImpl(out.toString(), paramMethod.getParameters());
+        return new DynamicQueryImpl(out.toString(), paramMethod.getParameters());
     }
 
     private void verifyQueryTemplateName(String queryTemplateName) {

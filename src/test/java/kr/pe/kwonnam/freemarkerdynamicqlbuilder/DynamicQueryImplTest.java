@@ -20,7 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class QueryImplTest {
+public class DynamicQueryImplTest {
 
     @Mock
     private PreparedStatement preparedStatement;
@@ -34,12 +34,12 @@ public class QueryImplTest {
         queryParameters.add(123);
         queryParameters.add(date);
 
-        QueryImpl query = new QueryImpl("SELECT 1 FROM DUAL", queryParameters);
-        assertThat(query.getQueryString(), is("SELECT 1 FROM DUAL"));
-        assertThat(query.getQueryParameters().size(), is(3));
-        assertThat(query.getQueryParameters(), sameInstance(queryParameters));
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("SELECT 1 FROM DUAL", queryParameters);
+        assertThat(dynamicQuery.getQueryString(), is("SELECT 1 FROM DUAL"));
+        assertThat(dynamicQuery.getQueryParameters().size(), is(3));
+        assertThat(dynamicQuery.getQueryParameters(), sameInstance(queryParameters));
 
-        Object[] queryParameterArray = query.getQueryParameterArray();
+        Object[] queryParameterArray = dynamicQuery.getQueryParameterArray();
         assertThat(queryParameterArray.length, is(3));
         assertThat(queryParameterArray[0], is(queryParameters.get(0)));
         assertThat(queryParameterArray[1], is(queryParameters.get(1)));
@@ -48,17 +48,17 @@ public class QueryImplTest {
 
     @Test
     public void constructor_query_parameters_null() throws Exception {
-        QueryImpl query = new QueryImpl("INSERT INTO...", null);
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", null);
 
-        assertThat(query.getQueryParameters().size(), is(0));
-        assertThat(query.getQueryParameterArray().length, is(0));
+        assertThat(dynamicQuery.getQueryParameters().size(), is(0));
+        assertThat(dynamicQuery.getQueryParameterArray().length, is(0));
     }
 
     @Test
     public void bindParameters_preparedStatement_null() throws Exception {
-        QueryImpl query = new QueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1, 2, 3, 4, 5, "6", "7"}));
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1, 2, 3, 4, 5, "6", "7"}));
         try {
-            query.bindParameters(null);
+            dynamicQuery.bindParameters(null);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -68,9 +68,9 @@ public class QueryImplTest {
 
     @Test
     public void bindParameters() throws Exception {
-        QueryImpl query = new QueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1000, 2000, "3000", "4000"}));
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1000, 2000, "3000", "4000"}));
 
-        query.bindParameters(preparedStatement);
+        dynamicQuery.bindParameters(preparedStatement);
 
         verify(preparedStatement, times(4)).setObject(anyInt(), anyObject());
 

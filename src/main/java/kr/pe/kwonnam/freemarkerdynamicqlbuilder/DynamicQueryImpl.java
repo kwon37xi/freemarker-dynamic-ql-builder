@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryImpl implements Query {
+public class DynamicQueryImpl implements DynamicQuery {
     private String queryString;
     private List<Object> queryParameters;
 
-    public QueryImpl(String queryString, List<Object> queryParameters) {
+    public DynamicQueryImpl(String queryString, List<Object> queryParameters) {
         this.queryString = queryString;
 
         if (queryParameters == null) {
@@ -59,7 +59,7 @@ public class QueryImpl implements Query {
 
     @Override
     public String toString() {
-        return "QueryImpl{" +
+        return "DynamicQueryImpl{" +
                 "queryString='" + queryString + '\'' +
                 ", queryParameters=" + queryParameters +
                 '}';

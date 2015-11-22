@@ -16,12 +16,12 @@ public interface FreemarkerDynamicQlBuilder {
      * @param dataModel data to prcoess
      * @return result of processing template
      */
-    Query buildQuery(String queryTemplateName, Map<String, Object> dataModel);
+    DynamicQuery buildQuery(String queryTemplateName, Map<String, Object> dataModel);
 
     /**
      * build dynamic query with empty dataModel;
      * @param queryTemplateName Freemarker Query template name - must not be null or empty.
      * @return result of processing template
      */
-    Query buildQuery(String queryTemplateName);
+    DynamicQuery buildQuery(String queryTemplateName);
 }
