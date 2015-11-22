@@ -17,10 +17,12 @@ public class SimpleDynamicQueryTest extends AbstractFreemarkerDynamicQlBuilderTe
     private Logger log = getLogger(SimpleDynamicQueryTest.class);
 
     @Test
-    public void only_text() throws Exception {
-        DynamicQuery dynamicQuery = processTemplate("simple/only_text");
+    public void text_and_number() throws Exception {
+        dataModel().put("num", 123456789);
 
-        assertThat(dynamicQuery.getQueryString(), is("SELECT 1 FROM DUAL"));
+        DynamicQuery dynamicQuery = processTemplate("simple/text_and_number");
+
+        assertThat(dynamicQuery.getQueryString(), is("SELECT 123456789 FROM DUAL"));
         assertThat(dynamicQuery.getQueryParameters().size(), is(0));
     }
 

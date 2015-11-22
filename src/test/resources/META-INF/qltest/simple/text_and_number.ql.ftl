@@ -1,0 +1,1 @@
+SELECT ${num} FROM DUAL
