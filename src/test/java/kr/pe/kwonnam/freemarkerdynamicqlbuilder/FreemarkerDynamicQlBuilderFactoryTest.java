@@ -1,12 +1,21 @@
 package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import freemarker.template.Configuration;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateModelException;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.SetDirective;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.TrimDirective;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.WhereDirective;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +24,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FreemarkerDynamicQlBuilderFactoryTest {
@@ -34,6 +47,9 @@ public class FreemarkerDynamicQlBuilderFactoryTest {
 
     @Mock
     private TemplateModelObjectUnwrapper templateModelObjectUnwrapper;
+
+    @Captor
+    private ArgumentCaptor<Map<String, TemplateDirectiveModel>> templateDirectivesCaptor;
 
     private FreemarkerDynamicQlBuilderFactory factory;
 
@@ -219,5 +235,15 @@ public class FreemarkerDynamicQlBuilderFactoryTest {
         assertThat(freemarkerDynamicQlBuilder.getParameterConverters().size(), is(2));
         assertThat(freemarkerDynamicQlBuilder.getParameterConverters().values(), hasItems(parameterConverter1, parameterConverter2));
         assertThat(freemarkerDynamicQlBuilder.getParameterConverters().keySet(), hasItems("pc1", "pc2"));
+
+        verifyTemplateDirectiveRegistration();
+    }
+
+    private void verifyTemplateDirectiveRegistration() throws TemplateModelException {
+        verify(freemarkerConfiguration).setSharedVariable(eq("Q"), templateDirectivesCaptor.capture());
+
+        Map<String, TemplateDirectiveModel> templateDirectives = templateDirectivesCaptor.getValue();
+        assertThat(templateDirectives.keySet(), hasSize(3));
+        assertThat(templateDirectives.keySet(), hasItems(SetDirective.DIRECTIVE_NAME, TrimDirective.DIRECTIVE_NAME, WhereDirective.DIRECTIVE_NAME));
     }
 }

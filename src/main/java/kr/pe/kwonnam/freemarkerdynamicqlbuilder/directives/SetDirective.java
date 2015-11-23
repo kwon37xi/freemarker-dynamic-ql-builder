@@ -13,6 +13,7 @@ import java.util.List;
  * This is the same as {@link TrimDirective} with <code>prefix="SET "</code> and <code>suffixOverrides=[',']</code> options.
  */
 public class SetDirective extends AbstractBaseTrimDirective {
+    public static final String DIRECTIVE_NAME = "set";
     private static final String PREFIX = "SET ";
     private static final List<String> SUFFIX_OVERRIDES = Collections.unmodifiableList(new ArrayList<String>(Arrays.asList(new String[]{","})));
 

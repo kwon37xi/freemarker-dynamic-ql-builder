@@ -28,7 +28,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * </ul>
  */
 public class TrimDirective implements TemplateDirectiveModel {
-
+    public static final String DIRECTIVE_NAME = "trim";
     public static final String PREFIX_PARAM_NAME = "prefix";
     public static final String SUFFIX_PARAM_NAME = "suffix";
     public static final String PREFIX_OVERRIDES_PARAM_NAME = "prefixOverrides";

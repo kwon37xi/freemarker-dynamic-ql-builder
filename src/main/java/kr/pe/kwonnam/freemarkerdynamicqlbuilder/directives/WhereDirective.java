@@ -13,6 +13,7 @@ import java.util.List;
  * This is the same as {@link TrimDirective} with <code>prefix="WHERE "</code> and <code>prefixOverrides=['AND ','and ', 'OR ', 'or ']</code> options.
  */
 public class WhereDirective extends AbstractBaseTrimDirective {
+    public static final String DIRECTIVE_NAME = "where";
     private static final String PREFIX = "WHERE ";
     private static final List<String> PREFIX_OVERRIDES = Collections.unmodifiableList(new ArrayList<String>(Arrays.asList(new String[]{"AND ", "and ", "OR ", "or "})));
 

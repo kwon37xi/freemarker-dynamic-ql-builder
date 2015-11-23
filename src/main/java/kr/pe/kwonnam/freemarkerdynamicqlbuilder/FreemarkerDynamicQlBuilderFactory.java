@@ -1,6 +1,11 @@
 package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 
 import freemarker.template.Configuration;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateModelException;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.SetDirective;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.TrimDirective;
+import kr.pe.kwonnam.freemarkerdynamicqlbuilder.directives.WhereDirective;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapperDefaultImpl;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
@@ -182,6 +187,24 @@ public class FreemarkerDynamicQlBuilderFactory {
     }
 
     public FreemarkerDynamicQlBuilder getFreemarkerDynamicQlBuilder() {
+        doConfigure();
+        return doBuildFreemarkerDynamicQlBuilder();
+    }
+
+    private void doConfigure() {
+        Map<String, TemplateDirectiveModel> qlDirectives = new HashMap<String, TemplateDirectiveModel>();
+        qlDirectives.put(SetDirective.DIRECTIVE_NAME, new SetDirective());
+        qlDirectives.put(TrimDirective.DIRECTIVE_NAME, new TrimDirective());
+        qlDirectives.put(WhereDirective.DIRECTIVE_NAME, new WhereDirective());
+
+        try {
+            freemarkerConfiguration.setSharedVariable(qlDirectivePrefix, qlDirectives);
+        } catch (TemplateModelException ex) {
+            throw new IllegalStateException("Failed to configurate freemarkerConfiguration.", ex);
+        }
+    }
+
+    private FreemarkerDynamicQlBuilderImpl doBuildFreemarkerDynamicQlBuilder() {
         FreemarkerDynamicQlBuilderImpl freemarkerDynamicQlBuilder = new FreemarkerDynamicQlBuilderImpl();
         freemarkerDynamicQlBuilder.setFreemarkerConfiguration(freemarkerConfiguration);
         freemarkerDynamicQlBuilder.setQlDirectivePrefix(qlDirectivePrefix);
