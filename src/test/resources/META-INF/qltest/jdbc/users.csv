@@ -1,0 +1,6 @@
+userId,name,birthyear,employeeType
+1,"Freemarker",2015,"FULLTIME"
+2,"John",1980,"PARTTIME"
+3,"Jane",1985,"FULLTIME"
+4,"Nathan",1989,"FULLTIME"
+5,"Kate",1979,"PARTTIME"
