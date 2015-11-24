@@ -10,13 +10,13 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class InClauseDynamicQueryTest extends AbstractFreemarkerDynamicQlBuilderTest {
+public class InClauseWithListAndItemsSepDirectiveDynamicQueryTest extends AbstractFreemarkerDynamicQlBuilderTest {
 
     @Test
     public void in_cluase() throws Exception {
         dataModel().put("userIds", new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
 
-        DynamicQuery dynamicQuery = processTemplate("complicated/in_clause");
+        DynamicQuery dynamicQuery = processTemplate("complicated/in_clause_with_list");
 
         String queryString = dynamicQuery.getQueryString();
         assertThat(queryString, containsString("user_id in (?,?,?,?,?,?,?,?,?,?)"));
@@ -28,7 +28,7 @@ public class InClauseDynamicQueryTest extends AbstractFreemarkerDynamicQlBuilder
     public void in_cluase_empty_userIds() throws Exception {
         dataModel().put("userIds", null);
 
-        DynamicQuery dynamicQuery = processTemplate("complicated/in_clause");
+        DynamicQuery dynamicQuery = processTemplate("complicated/in_clause_with_list");
 
         String queryString = dynamicQuery.getQueryString();
         assertThat(queryString, containsString("user_id IS NOT NULL"));
