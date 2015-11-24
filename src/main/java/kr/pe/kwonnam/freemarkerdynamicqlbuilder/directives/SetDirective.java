@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Directive for SQL {@code SET} statement.
- * <p/>
+ * <p>
  * This is the same as {@link TrimDirective} with <code>prefix="SET "</code> and <code>suffixOverrides=[',']</code> options.
  */
 public class SetDirective extends AbstractBaseTrimDirective {

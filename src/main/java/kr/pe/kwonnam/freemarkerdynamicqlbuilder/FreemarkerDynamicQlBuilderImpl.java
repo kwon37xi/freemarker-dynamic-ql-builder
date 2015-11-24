@@ -17,9 +17,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Default {@link FreemarkerDynamicQlBuilder} instance.
- * <br/>
+ * <br>
  * Do not instantiate directlry. Use {@link FreemarkerDynamicQlBuilderFactory}.
- * <p/>
+ * <p>
  * The isntance of this class is thread safe. But you MUST not change freemarkerConfigration object status(DO NOT call setter methods after the object configured).
  */
 public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilder {

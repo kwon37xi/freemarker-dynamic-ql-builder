@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Directive for SQL {@code WHERE} statement.
- * <p/>
+ * <p>
  * This is the same as {@link TrimDirective} with <code>prefix="WHERE "</code> and <code>prefixOverrides=['AND ','and ', 'OR ', 'or ']</code> options.
  */
 public class WhereDirective extends AbstractBaseTrimDirective {

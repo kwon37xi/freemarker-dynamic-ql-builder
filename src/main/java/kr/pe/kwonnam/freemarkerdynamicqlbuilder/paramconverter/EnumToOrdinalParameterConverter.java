@@ -1,7 +1,7 @@
 package kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter;
 
 /**
- * {@link Enum} type to the enum's ordinal() number converter.<br />
+ * {@link Enum} type to the enum's ordinal() number converter.<br>
  * Beware, saving enum's ordinal is not good practice. You'd better save enum's name().
  */
 public class EnumToOrdinalParameterConverter implements ParameterConverter {

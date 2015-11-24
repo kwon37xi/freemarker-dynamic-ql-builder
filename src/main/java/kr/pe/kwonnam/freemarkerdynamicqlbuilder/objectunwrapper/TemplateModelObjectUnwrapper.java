@@ -12,6 +12,7 @@ public interface TemplateModelObjectUnwrapper {
      * @param dataModel freemarker dataModel
      * @return If dataModel is an instance of {@link freemarker.template.TemplateModel} unwrapped java object will be returned.
      * If dataModel is null or not an instance of {@link freemarker.template.TemplateModel}, return dataModel itself.
+     * @throws TemplateModelException TemplateModelException
      */
     Object unwrap(TemplateModel dataModel) throws TemplateModelException;
 }

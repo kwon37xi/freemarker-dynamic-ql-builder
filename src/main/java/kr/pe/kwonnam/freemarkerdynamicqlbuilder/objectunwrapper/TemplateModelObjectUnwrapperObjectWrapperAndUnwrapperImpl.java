@@ -4,7 +4,7 @@ import freemarker.template.*;
 
 /**
  * {@link ObjectWrapperAndUnwrapper} based TemplateModel Unwrapper.
- * <p/>
+ * <p>
  * {@link ObjectWrapperAndUnwrapper} is currently(freemerker 2.3.23) experimental feature.
  * So this is just for test implementation, DO NOT use in production.
  */

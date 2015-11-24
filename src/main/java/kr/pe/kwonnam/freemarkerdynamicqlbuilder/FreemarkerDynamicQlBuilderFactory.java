@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * Factory class for {@link FreemarkerDynamicQlBuilder}.
- * <br />
+ * <br>
  * Default configuration values
  * <ul>
  *     <li>qlDirectivePrefix : <code>ql</code></li>
@@ -118,7 +118,7 @@ public class FreemarkerDynamicQlBuilderFactory {
     }
 
     /**
-     * queryTemplateNamePostfix will be added to queryTemplateName when create template instances from freemarkerConfiguration.<br />
+     * queryTemplateNamePostfix will be added to queryTemplateName when create template instances from freemarkerConfiguration.<br>
      * For example, when queryTemplateNamePostfix is ".ql.ftl" and you call <code>buildQuery("/users/select", dataModel)</code>,
      * then builder will create a template instance with name "/user/select.ql.ftl".
      *

@@ -8,7 +8,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Trim template result string.
- * <p/>
+ * <p>
  * This is thread safe but the setter methods must not be called while calling trim() method.
  */
 public class Trim {

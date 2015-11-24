@@ -16,7 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * String trim custom directive.
- * <br/>
+ * <br>
  * Parameters
  * <ul>
  * <li><code>prefix</code> : prefix will be added to the trimmed string's head if the trimmed string is not empty.</li>

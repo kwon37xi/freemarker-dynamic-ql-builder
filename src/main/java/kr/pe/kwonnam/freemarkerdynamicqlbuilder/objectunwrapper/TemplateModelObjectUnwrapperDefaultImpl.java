@@ -5,7 +5,7 @@ import freemarker.template.*;
 
 /**
  * Defautl {@link TemplateModel} Unwrapper.
- * <p/>
+ * <p>
  * This version is not able to unwrap some dataModels. But most of them are also not possible to be set into prepared statement.
  */
 public class TemplateModelObjectUnwrapperDefaultImpl implements TemplateModelObjectUnwrapper {

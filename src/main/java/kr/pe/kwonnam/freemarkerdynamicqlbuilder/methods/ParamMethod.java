@@ -14,15 +14,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * ParamMethod take a query parameter object from freemarker templates,
- * and adds the parameter object to {@link #parameters} list.<br/>
+ * and adds the parameter object to {@link #parameters} list.<br>
  * Finally this puts a {@code ?} jdbc query parameter bind character to the template result.
- * <p/>
- * Usage : <code>${param(parameter[, parameterConverterName]}</code><br/>
+ * <p>
+ * Usage : <code>${param(parameter[, parameterConverterName]}</code><br>
  * <ul>
  * <li>{@code parameter} will be bound to {@link java.sql.PreparedStatement} parameter.</li>
  * <li>{@code converterName} is used to find {@link ParameterConverter} and convvert the parameter to another object.</li>
  * </ul>
- * <p/>
+ * <p>
  * This is NOT thread safe. Each template processing request must create new instance.
  *
  * @see ParameterConverter
