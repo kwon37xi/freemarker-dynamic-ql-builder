@@ -3,6 +3,9 @@ apply plugin: 'jacoco'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+project.version = '0.1'
+project.group = 'kr.pe.kwonnam.freemarkerdynamicqlbuilder'
+
 ext {
     javaVersion = '1.6'
     freemarkerVersion = '2.3.23'

@@ -1,4 +1,5 @@
 # Freemarker Dynamic QL(SQL/JPQL/HQL/...) Builder
+[![kr.pe.kwonnam.jspMaven Central](https://maven-badges.herokuapp.com/maven-central/kr.pe.kwonnam.freemarkerdynamicqlbuilder/freemarker-dynamic-ql-builder/badge.svg)](https://maven-badges.herokuapp.com/maven-central/kr.pe.kwonnam.freemarkerdynamicqlbuilder/freemarker-dynamic-ql-builder)
 
 ## Requirements
   * Java 6 or later
