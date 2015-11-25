@@ -24,6 +24,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilder {
 
+    public static final boolean DEFAULT_WITH_POSITIONAL_INDEX = false;
     private Logger log = getLogger(FreemarkerDynamicQlBuilderImpl.class);
 
     /**
@@ -105,21 +106,31 @@ public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilde
     }
 
     @Override
-    public DynamicQuery buildQuery(String queryTemplateName) {
-        return buildQuery(queryTemplateName, Collections.<String, Object>emptyMap());
-    }
-
-    @Override
-    public DynamicQuery buildQuery(String queryTemplateName, Map<String, Object> dataModel) {
+    public DynamicQuery buildQuery(String queryTemplateName, Map<String, Object> dataModel, boolean withPositionalIndex) {
         verifyQueryTemplateName(queryTemplateName);
         verifyDataModel(dataModel);
 
         final String finalQueryTemplateName = queryTemplateName + queryTemplateNamePostfix;
         Template template = createTemplate(finalQueryTemplateName);
-        DynamicQueryImpl query = processTemplate(dataModel, finalQueryTemplateName, template);
+        DynamicQueryImpl query = processTemplate(dataModel, finalQueryTemplateName, template, withPositionalIndex);
 
         log.debug("Query for templateName : {}, dataModel : {} -> {}", finalQueryTemplateName, dataModel, query);
         return query;
+    }
+
+    @Override
+    public DynamicQuery buildQuery(String queryTemplateName, Map<String, Object> dataModel) {
+        return buildQuery(queryTemplateName, dataModel, DEFAULT_WITH_POSITIONAL_INDEX);
+    }
+
+    @Override
+    public DynamicQuery buildQuery(String queryTemplateName, boolean withPositionalIndex) {
+        return buildQuery(queryTemplateName, Collections.<String, Object>emptyMap(), withPositionalIndex);
+    }
+
+    @Override
+    public DynamicQuery buildQuery(String queryTemplateName) {
+        return buildQuery(queryTemplateName, DEFAULT_WITH_POSITIONAL_INDEX);
     }
 
     private Template createTemplate(String finalQueryTemplateName) {
@@ -130,9 +141,9 @@ public class FreemarkerDynamicQlBuilderImpl implements FreemarkerDynamicQlBuilde
         }
     }
 
-    private DynamicQueryImpl processTemplate(Map<String, Object> dataModel, String finalQueryTemplateName, Template template) {
+    private DynamicQueryImpl processTemplate(Map<String, Object> dataModel, String finalQueryTemplateName, Template template, boolean withPositionalIndex) {
         final Map<String, Object> finalDataModel = new HashMap<String, Object>(dataModel);
-        final ParamMethod paramMethod = new ParamMethod(templateModelObjectUnwrapper, parameterConverters);
+        final ParamMethod paramMethod = new ParamMethod(templateModelObjectUnwrapper, parameterConverters, withPositionalIndex);
         finalDataModel.put(paramMethodName, paramMethod);
 
         final StringWriter out = new StringWriter();

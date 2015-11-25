@@ -54,8 +54,13 @@ public abstract class AbstractFreemarkerDynamicQlBuilderTest {
     }
 
     protected DynamicQuery processTemplate(String queryTemplateName) {
-        DynamicQuery dynamicQuery = builder.buildQuery(queryTemplateName, dataModel);
-        log.info("QueryTemplate \"{}\" resuitl : {}", queryTemplateName, dynamicQuery);
+        return processTemplate(queryTemplateName, false);
+    }
+
+
+    protected DynamicQuery processTemplate(String queryTemplateName, boolean withPositionalIndex) {
+        DynamicQuery dynamicQuery = builder.buildQuery(queryTemplateName, dataModel, withPositionalIndex);
+        log.info("QueryTemplate withPositionalIndex({}) \"{}\" resuitl : {}", withPositionalIndex, queryTemplateName, dynamicQuery);
         return dynamicQuery;
     }
 }

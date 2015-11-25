@@ -38,6 +38,13 @@ public class ParamMethod implements TemplateMethodModelEx {
     private List<Object> parameters = new ArrayList<Object>();
 
     /**
+     * whether generating position string(?) with index number or not?
+     */
+    private boolean withPositionalIndex = false;
+
+    private int currentIndex = 0;
+
+    /**
      * To unwrap freemarker {@link TemplateModel} object
      */
     private TemplateModelObjectUnwrapper templateModelObjectUnwrapper;
@@ -47,7 +54,7 @@ public class ParamMethod implements TemplateMethodModelEx {
      */
     private Map<String, ParameterConverter> parameterConverters;
 
-    public ParamMethod(TemplateModelObjectUnwrapper templateModelObjectUnwrapper, Map<String, ParameterConverter> parameterConverters) {
+    public ParamMethod(TemplateModelObjectUnwrapper templateModelObjectUnwrapper, Map<String, ParameterConverter> parameterConverters, boolean withPositionalIndex) {
         if (templateModelObjectUnwrapper == null) {
             throw new IllegalArgumentException("templateModelObjectUnwrapper must not be null.");
         }
@@ -58,6 +65,7 @@ public class ParamMethod implements TemplateMethodModelEx {
 
         this.templateModelObjectUnwrapper = templateModelObjectUnwrapper;
         this.parameterConverters = parameterConverters;
+        this.withPositionalIndex = withPositionalIndex;
     }
 
     public List<Object> getParameters() {
@@ -75,6 +83,19 @@ public class ParamMethod implements TemplateMethodModelEx {
 
         queryParam = processParameterConverter(arguments, queryParam);
         parameters.add(queryParam);
+
+        incrementCurrentIndex();
+        return getPositionalParameterString();
+    }
+
+    private void incrementCurrentIndex() {
+        currentIndex = currentIndex + 1;
+    }
+
+    private SimpleScalar getPositionalParameterString() {
+        if (withPositionalIndex) {
+            return new SimpleScalar("?" + currentIndex);
+        }
         return JDBC_POSITIONAL_PARAMETER_STRING;
     }
 

@@ -3,6 +3,7 @@ package kr.pe.kwonnam.freemarkerdynamicqlbuilder;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleScalar;
 import freemarker.template.Template;
+import freemarker.template.TemplateModel;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.methods.ParamMethod;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.objectunwrapper.TemplateModelObjectUnwrapper;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.paramconverter.ParameterConverter;
@@ -10,6 +11,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -29,7 +31,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class FreemarkerDynamicQlBuilderImplTest {
     public static final String TEST_QL_DIRECTIVE_PREFIX = "Q";
     public static final String TEST_PARAM_METHOD_NAME = "P";
@@ -37,26 +39,32 @@ public class FreemarkerDynamicQlBuilderImplTest {
 
     private Logger log = LoggerFactory.getLogger(FreemarkerDynamicQlBuilderImplTest.class);
 
-    @Mock
-    private Configuration freemarkerConfiguration;
+    private Configuration freemarkerConfiguration = mock(Configuration.class);
 
-    @Mock
-    private TemplateModelObjectUnwrapper templateModelObjectUnwrapper;
+    private TemplateModelObjectUnwrapper templateModelObjectUnwrapper = mock(TemplateModelObjectUnwrapper.class);
 
-    @Mock
-    private ParameterConverter parameterConverter1;
+    private ParameterConverter parameterConverter1 = mock(ParameterConverter.class);
 
-    @Mock
-    private ParameterConverter parameterConverter2;
+    private ParameterConverter parameterConverter2 = mock(ParameterConverter.class);
 
-    @Mock
-    private Template template;
+    private Template template = mock(Template.class);
 
     private FreemarkerDynamicQlBuilderImpl builder;
 
     private Map<String, ParameterConverter> parameterConverters;
 
     private Map<String, Object> dataModel;
+
+    private boolean withParameterIndex;
+
+    public FreemarkerDynamicQlBuilderImplTest(boolean withParameterIndex) {
+        this.withParameterIndex = withParameterIndex;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> testParameters() {
+        return Arrays.asList(new Object[][]{{Boolean.FALSE}, {Boolean.TRUE}});
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -78,7 +86,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
     @Test
     public void buildQuery_name_null() throws Exception {
         try {
-            builder.buildQuery(null, dataModel);
+            builder.buildQuery(null, dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -89,7 +97,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
     @Test
     public void buildQuery_name_empty() throws Exception {
         try {
-            builder.buildQuery("", dataModel);
+            builder.buildQuery("", dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -100,7 +108,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
     @Test
     public void buildQuery_dataModel_null() throws Exception {
         try {
-            builder.buildQuery("hello/ql", null);
+            builder.buildQuery("hello/ql", null, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -113,7 +121,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
         dataModel.put(TEST_PARAM_METHOD_NAME, "userId");
 
         try {
-            builder.buildQuery("/users/selectByUserId", dataModel);
+            builder.buildQuery("/users/selectByUserId", dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -126,7 +134,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
         dataModel.put(TEST_QL_DIRECTIVE_PREFIX, "someThingElse");
 
         try {
-            builder.buildQuery("hello/world", dataModel);
+            builder.buildQuery("hello/world", dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             assertThat("Must throw an exception",
@@ -142,8 +150,8 @@ public class FreemarkerDynamicQlBuilderImplTest {
         when(templateModelObjectUnwrapper.unwrap(any(SimpleScalar.class))).thenAnswer(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                SimpleScalar simpleScalaro = (SimpleScalar) invocation.getArguments()[0];
-                return simpleScalaro.getAsString();
+                SimpleScalar simpleScalar = (SimpleScalar) invocation.getArguments()[0];
+                return simpleScalar.getAsString();
             }
         });
 
@@ -159,9 +167,15 @@ public class FreemarkerDynamicQlBuilderImplTest {
                 assertThat(paramMethod, notNullValue());
 
                 StringWriter out = (StringWriter) arguments[1];
-                paramMethod.exec(args(new SimpleScalar((String) finalDataModel.get("firstKey"))));
-                paramMethod.exec(args(new SimpleScalar((String) finalDataModel.get("secondKey"))));
-                out.append("SELECT * FROM SOMEWHERE id IN (?,?)");
+                SimpleScalar firstPositionPlaceholder = (SimpleScalar) paramMethod.exec(args(new SimpleScalar((String) finalDataModel.get("firstKey"))));
+                SimpleScalar secondPositionPlaceholder = (SimpleScalar) paramMethod.exec(args(new SimpleScalar((String) finalDataModel.get("secondKey"))));
+
+                out.append("SELECT * FROM SOMEWHERE id IN (")
+                        .append(firstPositionPlaceholder.getAsString())
+                        .append(",")
+                        .append(secondPositionPlaceholder.getAsString())
+                        .append(")");
+
                 return null;
             }
         }).when(template).process(any(Map.class), any(StringWriter.class));
@@ -169,10 +183,14 @@ public class FreemarkerDynamicQlBuilderImplTest {
         dataModel.put("firstKey", "hello");
         dataModel.put("secondKey", "world");
 
-        DynamicQuery dynamicQuery = builder.buildQuery(queryTemplateName, dataModel);
+        DynamicQuery dynamicQuery = builder.buildQuery(queryTemplateName, dataModel, withParameterIndex);
         log.debug("buildQuery result : {}", dynamicQuery);
 
-        assertThat(dynamicQuery.getQueryString(), is("SELECT * FROM SOMEWHERE id IN (?,?)"));
+        if (withParameterIndex) {
+            assertThat(dynamicQuery.getQueryString(), is("SELECT * FROM SOMEWHERE id IN (?1,?2)"));
+        } else {
+            assertThat(dynamicQuery.getQueryString(), is("SELECT * FROM SOMEWHERE id IN (?,?)"));
+        }
         assertThat(dynamicQuery.getQueryParameters().size(), is(2));
 
         assertThat(dynamicQuery.getQueryParameters().contains("hello"), is(true));
@@ -191,7 +209,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
         doThrow(expectedException).when(freemarkerConfiguration).getTemplate(queryTemplateName + TEST_QUERY_TEMPLATE_NAME_POSTFIX);
 
         try {
-            builder.buildQuery(queryTemplateName, dataModel);
+            builder.buildQuery(queryTemplateName, dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalStateException");
         } catch (IllegalStateException ex) {
             assertThat("Must throw an exception",
@@ -209,7 +227,7 @@ public class FreemarkerDynamicQlBuilderImplTest {
         doThrow(expectedException).when(template).process(anyObject(), any(StringWriter.class));
 
         try {
-            builder.buildQuery(queryTemplateName, dataModel);
+            builder.buildQuery(queryTemplateName, dataModel, withParameterIndex);
             fail("Must throw an exception - IllegalArgumentException");
         } catch (IllegalStateException ex) {
             assertThat("Must throw an exception",

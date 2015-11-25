@@ -13,6 +13,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
@@ -20,19 +21,16 @@ import org.slf4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.Time;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.slf4j.LoggerFactory.getLogger;
 
-
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class ParamMethodTest {
     private Logger log = getLogger(ParamMethodTest.class);
 
@@ -44,14 +42,23 @@ public class ParamMethodTest {
 
     private ParamMethod paramMethod;
 
-    @Mock
-    private ParameterConverter booleanToYn;
+    private ParameterConverter booleanToYn = mock(ParameterConverter.class);
 
-    @Mock
-    private ParameterConverter dateToTime;
+    private ParameterConverter dateToTime = mock(ParameterConverter.class);
 
     private Map<String, ParameterConverter> parameterConverters;
     private Map<String,Object> dataModel;
+
+    private boolean withPositionalIndex;
+
+    public ParamMethodTest(boolean withPositionalIndex) {
+        this.withPositionalIndex = withPositionalIndex;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> testParameters() {
+        return Arrays.asList(new Object[][]{{Boolean.FALSE}, {Boolean.TRUE}});
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -69,7 +76,7 @@ public class ParamMethodTest {
         parameterConverters.put("dateToTime", dateToTime);
 
         unwrapper = new TemplateModelObjectUnwrapperDefaultImpl();
-        paramMethod = new ParamMethod(unwrapper, parameterConverters);
+        paramMethod = new ParamMethod(unwrapper, parameterConverters, withPositionalIndex);
 
         dataModel = new HashMap<String, Object>();
     }
@@ -87,7 +94,7 @@ public class ParamMethodTest {
     @Test
     public void constructor_unrwrapper_null() throws Exception {
         try {
-            new ParamMethod(null, parameterConverters);
+            new ParamMethod(null, parameterConverters, false);
             fail("Must throw IllegalArgumentException.");
         } catch (IllegalArgumentException ex) {
             assertThat(ex.getMessage(), containsString("templateModelObjectUnwrapper must not be null."));
@@ -97,7 +104,7 @@ public class ParamMethodTest {
     @Test
     public void constructor_parameterConverters_null() throws Exception {
         try {
-            new ParamMethod(unwrapper, null);
+            new ParamMethod(unwrapper, null, false);
             fail("Must throw IllegalArgumentException.");
         } catch (IllegalArgumentException ex) {
             assertThat(ex.getMessage(), containsString("parameterConverters must not be null."));
@@ -117,7 +124,12 @@ public class ParamMethodTest {
     @Test
     public void exec_query_param_null() throws Exception {
         String result = processTemplate("${param(someNotExistValue)}");
-        assertThat(result, is("?"));
+        if (withPositionalIndex) {
+            assertThat(result, is("?1"));
+        } else {
+            assertThat(result, is("?"));
+        }
+
         List<Object> parameters = paramMethod.getParameters();
         assertThat(parameters.size(), is(1));
         assertThat(parameters.get(0), nullValue());
@@ -128,7 +140,11 @@ public class ParamMethodTest {
         dataModel.put("user", new User("World", 2001, EmployeeType.FULLTIME));
         String result = processTemplate("${param(user.name)}/${param(user.birthyear)}/${param(user.employeeType)}");
 
-        assertThat(result, is("?/?/?"));
+        if (withPositionalIndex) {
+            assertThat(result, is("?1/?2/?3"));
+        } else {
+            assertThat(result, is("?/?/?"));
+        }
 
         List<Object> parameters = paramMethod.getParameters();
         assertThat(parameters.size(), is(3));
@@ -142,7 +158,11 @@ public class ParamMethodTest {
         dataModel.put("user", new User("John", 2002, EmployeeType.PARTTIME));
         String result = processTemplate("${param(user.name)}|${param(user.somenotexistfield)}|${param(user.birthyear)}");
 
-        assertThat(result, is("?|?|?"));
+        if (withPositionalIndex) {
+            assertThat(result, is("?1|?2|?3"));
+        } else {
+            assertThat(result, is("?|?|?"));
+        }
 
         List<Object> parameters = paramMethod.getParameters();
         assertThat(parameters.size(),is(3));
@@ -198,7 +218,12 @@ public class ParamMethodTest {
         when(dateToTime.convert(date)).thenReturn(time);
 
         String result = processTemplate("${param(available, 'booleanToYn')},${param(date,'dateToTime')}");
-        assertThat(result, is("?,?"));
+
+        if (withPositionalIndex) {
+            assertThat(result, is("?1,?2"));
+        } else {
+            assertThat(result, is("?,?"));
+        }
 
         List<Object> parameters = paramMethod.getParameters();
         assertThat(parameters.size(), is(2));
