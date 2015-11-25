@@ -3,7 +3,7 @@ apply plugin: 'jacoco'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-project.version = '0.1'
+project.version = '0.2'
 project.group = 'kr.pe.kwonnam.freemarkerdynamicqlbuilder'
 
 ext {
