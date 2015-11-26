@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compile "org.freemarker:freemarker:${freemarkerVersion}"
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.11' // 4.12 version conflicts with contiperf 2.3.4
     // DO NOT use assertj - it's available with JDK 7+. freemarker-dynamic-ql-builder should support JDK 6.
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile 'org.mockito:mockito-core:1.10.19'
@@ -33,6 +33,7 @@ dependencies {
     testCompile "joda-time:joda-time:2.9.1"
     testCompile "org.joda:joda-money:0.10.0"
     testCompile 'com.h2database:h2:1.4.190'
+    testCompile 'org.databene:contiperf:2.3.4'
 }
 
 jacoco {
@@ -41,6 +42,9 @@ jacoco {
 
 test {
     ignoreFailures = true
+    testLogging {
+        showStandardStreams true
+    }
     jacoco {
         enabled = true
     }

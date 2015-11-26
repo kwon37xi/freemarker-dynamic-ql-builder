@@ -15,7 +15,7 @@ import java.util.List;
 public class WhereDirective extends AbstractBaseTrimDirective {
     public static final String DIRECTIVE_NAME = "where";
     private static final String PREFIX = "WHERE ";
-    private static final List<String> PREFIX_OVERRIDES = Collections.unmodifiableList(new ArrayList<String>(Arrays.asList(new String[]{"AND ", "and ", "OR ", "or "})));
+    private static final List<String> PREFIX_OVERRIDES = Collections.unmodifiableList(Arrays.asList("AND ", "and ", "OR ", "or "));
 
     private static final Trim WHERE_TRIM;
 

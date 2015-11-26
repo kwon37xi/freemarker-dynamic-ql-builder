@@ -56,7 +56,7 @@ public class DynamicQueryImplTest {
 
     @Test
     public void bindParameters_preparedStatement_null() throws Exception {
-        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1, 2, 3, 4, 5, "6", "7"}));
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList((Object) 1, 2, 3, 4, 5, "6", "7"));
         try {
             dynamicQuery.bindParameters(null);
             fail("Must throw an exception - IllegalArgumentException");
@@ -68,7 +68,7 @@ public class DynamicQueryImplTest {
 
     @Test
     public void bindParameters() throws Exception {
-        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList(new Object[]{1000, 2000, "3000", "4000"}));
+        DynamicQueryImpl dynamicQuery = new DynamicQueryImpl("INSERT INTO...", Arrays.asList((Object) 1000, 2000, "3000", "4000"));
 
         dynamicQuery.bindParameters(preparedStatement);
 

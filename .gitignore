@@ -3,6 +3,7 @@
 .mtj.tmp/
 .gradle/
 build/
+contiperf-report/
 
 # Package Files #
 *.jar

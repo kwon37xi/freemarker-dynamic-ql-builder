@@ -15,7 +15,7 @@ import java.util.List;
 public class SetDirective extends AbstractBaseTrimDirective {
     public static final String DIRECTIVE_NAME = "set";
     private static final String PREFIX = "SET ";
-    private static final List<String> SUFFIX_OVERRIDES = Collections.unmodifiableList(new ArrayList<String>(Arrays.asList(new String[]{","})));
+    private static final List<String> SUFFIX_OVERRIDES = Collections.unmodifiableList(Arrays.asList(","));
 
     private static final Trim SET_TRIM;
 
