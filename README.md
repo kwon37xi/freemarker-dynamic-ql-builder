@@ -63,6 +63,7 @@ dynamicQuery.getParameters()
 dynamicQuery.getQueryParameterArray()
 ==> Object[] : [2015, FULLTIME, 100, 200, 300] 
 ```
+
 ## Getting Started
 
 * [Freemarker Dynamic QL Builder 시작하기 - 한국어](https://github.com/kwon37xi/freemarker-dynamic-ql-builder/wiki/GettingStarted_KO)
