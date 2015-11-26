@@ -45,7 +45,7 @@ DynamicQuery dynamicQuery = = dynamicQlBuilder.buildQuery("users/select", dataMo
 // dynamicQuery 에 생성된 QL과 파리머터 목록이 들어 있다.
 ```
 
-Then you will get DynamicQuery object with the following properties
+Then you will get `DynamicQuery` object with the following properties
 ```
 dynamicQuery.getQueryString() 
 ==> String
