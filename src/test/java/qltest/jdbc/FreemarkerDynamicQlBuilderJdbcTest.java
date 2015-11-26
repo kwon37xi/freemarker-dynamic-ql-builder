@@ -4,13 +4,11 @@ import kr.pe.kwonnam.freemarkerdynamicqlbuilder.DynamicQuery;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.EmployeeType;
 import kr.pe.kwonnam.freemarkerdynamicqlbuilder.User;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.hamcrest.Matcher;
 import org.junit.*;
 import org.slf4j.Logger;
 import qltest.AbstractFreemarkerDynamicQlBuilderTest;
 
 import java.sql.*;
-import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.notNullValue;
@@ -174,7 +172,7 @@ public class FreemarkerDynamicQlBuilderJdbcTest extends AbstractFreemarkerDynami
         DynamicQuery dynamicQuery = processTemplate("jdbc/like");
         PreparedStatement psmt = null;
         try {
-            psmt = connection.prepareCall(dynamicQuery.getQueryString());
+            psmt = connection.prepareStatement(dynamicQuery.getQueryString());
             dynamicQuery.bindParameters(psmt);
 
             ResultSet rs = psmt.executeQuery();
