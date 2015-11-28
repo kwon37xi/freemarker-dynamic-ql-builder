@@ -42,7 +42,6 @@ dataModel.put("user", user);
 dataModel.put("userIds", new int[]{100, 200, 300});
 
 DynamicQuery dynamicQuery = dynamicQlBuilder.buildQuery("users/select", dataModel);
-// dynamicQuery 에 생성된 QL과 파리머터 목록이 들어 있다.
 ```
 
 Then you will get `DynamicQuery` object with the following properties
